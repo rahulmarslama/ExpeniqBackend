@@ -19,7 +19,7 @@ builder.Services.AddCors(options =>
         policy.AllowAnyOrigin()
               .AllowAnyMethod()
               .AllowAnyHeader();
-              //.AllowCredentials();
+        //.AllowCredentials();
     });
 });
 
@@ -41,25 +41,25 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/api/auth/login";
-        options.LogoutPath = "/api/auth/logout";
-        options.ExpireTimeSpan = TimeSpan.FromDays(7);
-        options.SlidingExpiration = true;
-        options.Cookie.HttpOnly = true;
-        options.Cookie.SecurePolicy = builder.Environment.IsDevelopment() ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always;
-        options.Cookie.SameSite = SameSiteMode.Lax;
-    });
+//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+//    .AddCookie(options =>
+//    {
+//        options.LoginPath = "/api/auth/login";
+//        options.LogoutPath = "/api/auth/logout";
+//        options.ExpireTimeSpan = TimeSpan.FromDays(7);
+//        options.SlidingExpiration = true;
+//        options.Cookie.HttpOnly = true;
+//        options.Cookie.SecurePolicy = builder.Environment.IsDevelopment() ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always;
+//        options.Cookie.SameSite = SameSiteMode.Lax;
+//    });
 
-builder.Services.AddAuthorization();
+//builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-    app.MapOpenApi();
-    app.UseOpenApi();
-    app.UseSwaggerUi();
+app.MapOpenApi();
+app.UseOpenApi();
+app.UseSwaggerUi();
 
 if (!app.Environment.IsDevelopment())
 {
@@ -67,8 +67,8 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowReactApp");
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
 app.MapControllers();
 
 //// Migrate database on startup

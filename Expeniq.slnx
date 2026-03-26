@@ -1,5 +1,9 @@
 <Solution>
-  <Project Path="Expendiq.Domain/Expendiq.Domain.csproj" />
-  <Project Path="Expendiq.Infrastructure/Expendiq.Infrastructure.csproj" />
-  <Project Path="Expeniq.Presentation/Expeniq.Presentation.csproj" />
+  <Folder Name="/Expendiq/">
+    <Project Path="Expendiq.Domain/Expendiq.Domain.csproj" />
+    <Project Path="Expendiq.Infrastructure/Expendiq.Infrastructure.csproj" />
+    <Project Path="Expeniq.Presentation/Expeniq.Presentation.csproj" />
+  </Folder>
+  <Project Path="APIGateway/APIGateway.csproj" />
+  <Project Path="IdentityServer/IdentityServer.csproj" />
 </Solution>
