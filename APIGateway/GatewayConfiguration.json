@@ -10,7 +10,7 @@
           "Port": 2000
         }
       ],
-      "UpstreamPathTemplate": "/api/userms/{everything}",
+      "UpstreamPathTemplate": "/api/expendiq/{everything}",
       "UpstreamHttpMethod": [ "GET", "Post", "Delete" ]
     }
   ],
