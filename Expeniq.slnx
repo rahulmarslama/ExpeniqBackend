@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="APIGateway/APIGateway.csproj" />
   <Project Path="Expendiq.Domain/Expendiq.Domain.csproj" />
   <Project Path="Expendiq.Infrastructure/Expendiq.Infrastructure.csproj" />
   <Project Path="Expeniq.Presentation/Expeniq.Presentation.csproj" />
