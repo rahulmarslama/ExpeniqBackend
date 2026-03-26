@@ -1,0 +1,6 @@
+@Expeniq.Presentation_HostAddress = http://localhost:5118
+
+GET {{Expeniq.Presentation_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
