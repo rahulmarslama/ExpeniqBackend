@@ -1,4 +1,4 @@
-namespace APIGateway
+namespace IdentityServer
 {
     public class WeatherForecast
     {

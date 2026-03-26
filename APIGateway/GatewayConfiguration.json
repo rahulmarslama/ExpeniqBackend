@@ -11,10 +11,10 @@
         }
       ],
       "UpstreamPathTemplate": "/api/expendiq/{everything}",
-      "UpstreamHttpMethod": [ "GET", "Post", "Delete" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "DELETE", "PUT" ]
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:6000"
+    "BaseUrl": "http://localhost:3000"
   }
 }
