@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Expendiq.Application\Expendiq.Application.csproj" />
     <ProjectReference Include="..\Expendiq.Domain\Expendiq.Domain.csproj" />
     <ProjectReference Include="..\Expendiq.Infrastructure\Expendiq.Infrastructure.csproj" />
   </ItemGroup>

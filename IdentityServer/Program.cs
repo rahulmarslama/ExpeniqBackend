@@ -4,7 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddIdentityServer()
+//builder.Services.AddIdentityServer()
     //.AddConfigurationStore(options =>
     //{
     //    options.ConfigureDbContext = b => b.UseSqlServer(connectionString,
@@ -16,12 +16,12 @@ builder.Services.AddIdentityServer()
     //        sql => sql.MigrationsAssembly(assembly));
     //})
     //.AddSigningCredential(certificate);
-    .AddInMemoryClients(Configuration.Clients)
-    .AddInMemoryApiScopes(Configuration.ApiScopes)
-    .AddInMemoryApiResources(Configuration.ApiResources)
-    .AddInMemoryIdentityResources(Configuration.IdentityResources)
-    .AddTestUsers(Configuration.Users)
-    .AddDeveloperSigningCredential();
+    //.AddInMemoryClients(Configuration.Clients)
+    //.AddInMemoryApiScopes(Configuration.ApiScopes)
+    //.AddInMemoryApiResources(Configuration.ApiResources)
+    //.AddInMemoryIdentityResources(Configuration.IdentityResources)
+    //.AddTestUsers(Configuration.Users)
+    //.AddDeveloperSigningCredential();
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();

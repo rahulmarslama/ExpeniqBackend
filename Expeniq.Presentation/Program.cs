@@ -1,5 +1,10 @@
+using Expendiq.Application.IServices;
+using Expendiq.Application.Services;
 using Expendiq.Domain.Entities;
 using Expendiq.Infrastructure.Data;
+using Expendiq.Infrastructure.IRepositories;
+using Expendiq.Infrastructure.Repositories;
+using Expeniq.Presentation;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -41,6 +46,9 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
 //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 //    .AddCookie(options =>
 //    {
@@ -56,6 +64,29 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 //builder.Services.AddAuthorization();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var db = services.GetRequiredService<ApplicationDbContext>();
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+
+    try
+    {
+        // Apply pending migrations
+        await db.Database.MigrateAsync();
+        Console.WriteLine("? Database migrations applied successfully");
+
+        // Seed initial data
+        await DataSeeder.SeedAsync(userManager, db);
+        Console.WriteLine("? Database seeding completed successfully");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"? Error during migration/seeding: {ex.Message}");
+        throw;
+    }
+}
 
 app.MapOpenApi();
 app.UseOpenApi();
