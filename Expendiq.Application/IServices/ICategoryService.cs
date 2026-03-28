@@ -1,7 +1,4 @@
 ﻿using Expendiq.Application.DTOs.Category;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Expendiq.Application.IServices
 {

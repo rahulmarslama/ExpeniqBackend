@@ -1,7 +1,4 @@
 ﻿using Expendiq.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Expendiq.Infrastructure.IRepositories
 {

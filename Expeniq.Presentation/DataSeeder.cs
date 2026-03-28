@@ -1,4 +1,4 @@
-﻿using Expendiq.Domain.Entities;
+﻿using Expendiq.Domain.Entities.Users;
 using Expendiq.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 
@@ -23,8 +23,8 @@ namespace Expeniq.Presentation
             {
                 UserName = "admin",
                 Email = "admin@expendiq.com",
-                FirstName = "Admin",
-                LastName = "User",
+                FullName = "Admin",
+                MobileNumber = "123456789",
                 EmailConfirmed = true
             };
 

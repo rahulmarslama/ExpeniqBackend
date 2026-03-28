@@ -1,7 +1,6 @@
 ﻿using Expendiq.Application.DTOs.Category;
 using Expendiq.Application.IServices;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace Expeniq.Presentation.Controllers
 {

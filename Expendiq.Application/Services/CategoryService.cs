@@ -2,12 +2,6 @@
 using Expendiq.Application.IServices;
 using Expendiq.Domain.Entities;
 using Expendiq.Infrastructure.IRepositories;
-using Expendiq.Infrastructure.Repositories;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Expendiq.Application.Services
 {
