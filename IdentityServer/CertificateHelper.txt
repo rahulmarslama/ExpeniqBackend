@@ -1,0 +1,28 @@
+﻿//Author: Rahul Mars Lama
+Signing Certificate is referenced from https://learn.microsoft.com/en-us/archive/blogs/kaevans/using-powershell-with-certificates
+
+It is used by Identity Server to sign the tokens. Certificate is only used in production environment.
+
+
+Steps to create your own certificate:
+
+Step 1: Open Windows Powershell from the Identity Server Project(Right click Project,select Open in terminal) and type below command.
+
+$cert = New-SelfSignedCertificate -Subject "CN=IdentityServerCert" -CertStoreLocation cert:\CurrentUser\My -Provider "Microsoft Strong Cryptographic Provider"
+
+Step 2 : To see all your certificates type below command
+
+Get-ChildItem -Path cert:\CurrentUser\My
+
+Step 3: To remove a certificate type below command
+
+Remove-Item -Path ("cert:\CurrentUser\My\" + $cert.Thumbprint)    //Replace $cert.Thumbprint with the Thumbprint of the certificate which can be seen from Step:2
+
+Step 4 : To get your specific certicate type below command.  //It saves the certificate in the variable $cert, tyoe $cert to see your certificate
+
+$cert = Get-ChildItem -Path cert:\CurrentUser\My | ?{$_.Subject -eq "CN=IdentityServerCert"}
+
+Step 5: Export Private Key
+
+$cred = Get-Credential  //Type username and password here. username:infodev, password:Password
+Export-PfxCertificate -Cert $cert -Password $cred.Password -FilePath "./identityservercert.pfx"

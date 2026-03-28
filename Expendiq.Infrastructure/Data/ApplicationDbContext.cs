@@ -1,33 +1,36 @@
 ﻿using Expendiq.Domain.Entities;
+using Expendiq.Domain.Entities.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.Extensions.Configuration;
+using System.Reflection.Emit;
 
 namespace Expendiq.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<Budget> Budgets { get; set; }
-        public DbSet<RecurringTransaction> RecurringTransactions { get; set; }
-
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             base.OnModelCreating(modelBuilder);
 
-            // ApplicationUser configuration
-            modelBuilder.Entity<ApplicationUser>(b =>
+            modelBuilder.HasDefaultSchema("exp");
+
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+
             {
-                b.ToTable("AspNetUsers");
-            });
+
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+
+            }
+
+            base.OnModelCreating(modelBuilder);
+
 
             // Category configuration
             modelBuilder.Entity<Category>(b =>
@@ -37,10 +40,6 @@ namespace Expendiq.Infrastructure.Data
                 b.Property(c => c.Color).HasMaxLength(7);
                 b.Property(c => c.Icon).HasMaxLength(50);
 
-                b.HasOne(c => c.User)
-                    .WithMany(u => u.Categories)
-                    .HasForeignKey(c => c.UserId)
-                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             // Transaction configuration
@@ -49,11 +48,6 @@ namespace Expendiq.Infrastructure.Data
                 b.HasKey(t => t.Id);
                 b.Property(t => t.Description).IsRequired().HasMaxLength(500);
                 b.Property(t => t.Amount).HasPrecision(18, 2);
-
-                b.HasOne(t => t.User)
-                    .WithMany(u => u.Transactions)
-                    .HasForeignKey(t => t.UserId)
-                    .OnDelete(DeleteBehavior.Cascade);
 
                 b.HasOne(t => t.Category)
                     .WithMany(c => c.Transactions)
@@ -65,7 +59,6 @@ namespace Expendiq.Infrastructure.Data
                     .HasForeignKey(t => t.RecurringTransactionId)
                     .OnDelete(DeleteBehavior.SetNull);
 
-                b.HasIndex(t => t.UserId);
                 b.HasIndex(t => t.Date);
             });
 
@@ -77,17 +70,12 @@ namespace Expendiq.Infrastructure.Data
                 b.Property(b => b.LimitAmount).HasPrecision(18, 2);
                 b.Property(b => b.Alert).HasDefaultValue(80);
 
-                b.HasOne(b => b.User)
-                    .WithMany(u => u.Budgets)
-                    .HasForeignKey(b => b.UserId)
-                    .OnDelete(DeleteBehavior.Cascade);
-
+                
                 b.HasOne(b => b.Category)
                     .WithMany(c => c.Budgets)
                     .HasForeignKey(b => b.CategoryId)
                     .OnDelete(DeleteBehavior.Restrict);
 
-                b.HasIndex(b => b.UserId);
             });
 
             // RecurringTransaction configuration
@@ -96,19 +84,18 @@ namespace Expendiq.Infrastructure.Data
                 b.HasKey(r => r.Id);
                 b.Property(r => r.Description).IsRequired().HasMaxLength(500);
                 b.Property(r => r.Amount).HasPrecision(18, 2);
-
-                b.HasOne(r => r.User)
-                    .WithMany(u => u.RecurringTransactions)
-                    .HasForeignKey(r => r.UserId)
-                    .OnDelete(DeleteBehavior.Cascade);
-
+                
                 b.HasOne(r => r.Category)
                     .WithMany(c => c.RecurringTransactions)
                     .HasForeignKey(r => r.CategoryId)
                     .OnDelete(DeleteBehavior.Restrict);
 
-                b.HasIndex(r => r.UserId);
             });
         }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Budget> Budgets { get; set; }
+        public DbSet<RecurringTransaction> RecurringTransactions { get; set; }
+
     }
 }

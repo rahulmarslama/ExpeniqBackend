@@ -1,0 +1,202 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="login-form">
+    <form asp-action="Register" asp-controller="Account">
+        <input type="hidden" asp-for="ReturnUrl" />
+        <div class="sub-title">
+            <small><b>Register as</b></small>
+        </div>
+        <div class="login-form__input">
+
+            <div id="agentOnly">
+                <input type="hidden" asp-for="AgentId" />
+
+                <label asp-for="AgentCode"></label>
+                <div class="inputBox">
+                    <input class="clearContent" type="text" asp-for="AgentCode">
+                </div>
+
+                <div>
+                    <span style="color:red; font-size:13px;" asp-validation-for="AgentCode"></span>
+                </div>
+
+                <label asp-for="CompanyName"></label>
+                <div class="inputBox">
+                    <input class="clearContent" disabled type="text" asp-for="CompanyName" value="@Model.CompanyName">
+                </div>
+
+                <label asp-for="BranchName"></label>
+                <div class="inputBox">
+                    <select id="branchDropDown" asp-for="BranchId"><option disabled selected>Please Select</option></select>
+                </div>
+
+                <div>
+                    <span style="color:red; font-size:13px;" asp-validation-for="BranchName"></span>
+                </div>
+            </div>
+
+            <div id="customerAgent">
+
+                <label asp-for="FullName"></label>
+                <div class="inputBox">
+                    <input class="clearContent" type="text" asp-for="FullName">
+                </div>
+
+                <div>
+                    <span style="color:red; font-size:13px;" asp-validation-for="FullName"></span>
+                </div>
+
+                <label asp-for="ContactNumber"></label>
+                <div class="inputBox">
+                    <input class="clearContent" type="text" asp-for="ContactNumber">
+                </div>
+
+                <div>
+                    <span style="color:red; font-size:13px;" asp-validation-for="ContactNumber"></span>
+                </div>
+
+                <label asp-for="Email"></label>
+                <div class="inputBox">
+                    <input class="clearContent" type="text" asp-for="Email">
+                </div>
+
+                <div>
+                    <span style="color:red; font-size:13px;" asp-validation-for="Email"></span>
+                </div>
+            </div>
+
+            <div>
+                <button id="btnLogin" class="btn" type="submit">Register</button>
+            </div><br>
+
+            <div class="loading" align="center">
+                <img src="https://www.aspsnippets.com/demos/loader.gif" alt="" />
+            </div>
+
+        </div>
+        <div>
+            <small style="text-align: center">Already have an account?&nbsp;&nbsp;<a style="font-size: 15px;" asp-action="Login" asp-controller="Account" asp-route-returnUrl="@Model.ReturnUrl">Login</a></small>
+        </div>
+    </form>
+
+</div>
+
+<style type="text/css">
+
+    .modal {
+        position: fixed;
+        z-index: 998;
+        height: 100% !important;
+        width: 100% !important;
+        top: 0;
+        display: block;
+        background-color: Black !important;
+        filter: grayscale(100%);
+        opacity: 0.6;
+    }
+
+    .loading {
+        font-family: Arial;
+        font-size: 10pt;
+        width: 200px;
+        height: 100px;
+        display: none;
+        position: fixed;
+        z-index: 999;
+    }
+</style>
+
+@section Scripts
+    {
+    <script type="text/javascript">
+
+        var modal, loading;
+        function ShowProgress() {
+            modal = document.createElement("DIV");
+            modal.className = "modal";
+            document.body.appendChild(modal);
+            loading = document.getElementsByClassName("loading")[0];
+            loading.style.display = "block";
+            var top = Math.max(window.innerHeight / 2 - loading.offsetHeight / 2, 0);
+            var left = Math.max(window.innerWidth / 2 - loading.offsetWidth / 2, 0);
+            loading.style.top = top + "px";
+            loading.style.left = left + "px";
+        };
+
+        function HideProgress() {
+            document.body.removeChild(modal);
+            loading.style.display = "none";
+        };
+
+        $(function () {
+            $("#btnLogin").click(function () {
+                ShowProgress();
+                setTimeout(function () {
+                    HideProgress();
+                }, 5000);
+            });
+        });
+
+        $(document).ready(function () {
+            if ($('#customerRadio').attr('checked') === 'checked') {
+                $('#customerAgent').show();
+                $('#agentOnly').hide();
+            }
+            else {
+                $('#AgentCode').val('');
+                $('#agentOnly').show();
+            }
+
+            $('input[type=radio][name=RegisterType]').change(function () {
+                $('span').hide();
+                $('#branchDropDown').empty();
+
+                $('#branchDropDown').append($('<option disabled selected></option>').text('Please Select'));
+                if (this.value === 'customer') {
+                    $('#customerAgent').show();
+                    $('#agentOnly').hide();
+                    $('.clearContent').val('');
+                }
+                else if (this.value === 'agent') {
+                    $('#customerAgent').show();
+                    $('#agentOnly').show();
+                    $('clearContent').val('');
+                }
+            });
+
+            function populateDropdown(options) {
+                var dropdown = $('#branchDropDown');
+                dropdown.empty();
+
+                dropdown.append($('<option disabled selected></option>').text('Please Select'));
+
+                options.forEach(function (option) {
+                    dropdown.append($('<option></option>').text(option.branchName).val(option.id));
+                });
+            }
+
+            $('#AgentCode').focusout(function () {
+                var agentCode = $('#AgentCode').val();
+                $.ajax({
+                    url: '/Account/GetAgentDetail?agentCode=' + agentCode,
+                    method: 'GET',
+                    success: function (response) {
+                        $('#AgentId').val(response.agentId);
+                        $('#CompanyName').val(response.agentCompanyName);
+                        populateDropdown(response.agentBranchViewModel);
+                    },
+                    error: function (xhr, status, error) {
+                        $('#AgentId').val(0);
+                        $('#CompanyName').val('')
+                        $('#branchDropDown').empty();
+                        $('#branchDropDown').append($('<option disabled selected></option>').text('Please Select'));
+                    }
+                });
+            });
+
+        });
+    </script>
+}

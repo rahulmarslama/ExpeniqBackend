@@ -1,7 +1,5 @@
-﻿using Expendiq.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Expendiq.Domain.Entities.Users;
+using Expendiq.Domain.Enums;
 
 namespace Expendiq.Domain.Entities
 {
@@ -18,14 +16,12 @@ namespace Expendiq.Domain.Entities
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        // Foreign keys
         public string UserId { get; set; } = string.Empty;
         public int CategoryId { get; set; }
 
         // Navigation properties
-        public ApplicationUser? User { get; set; }
         public Category? Category { get; set; }
     }
 
-   
+
 }

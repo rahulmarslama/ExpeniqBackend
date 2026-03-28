@@ -1,81 +1,36 @@
-using Expendiq.Domain.Entities;
+using Expendiq.Domain.Entities.Users;
 using Expendiq.Infrastructure.Data;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Builder;
+using Expeniq.Presentation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(args);
+var app = WebApplication.CreateBuilder(args)
+    .RegisterServices()
+    .Build();
 
-
-builder.Services.AddControllers();
-builder.Services.AddOpenApi();
-builder.Services.AddOpenApiDocument();
-
-builder.Services.AddCors(options =>
+using (var scope = app.Services.CreateScope())
 {
-    options.AddPolicy("AllowReactApp", policy =>
+    var services = scope.ServiceProvider;
+    var db = services.GetRequiredService<ApplicationDbContext>();
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+
+    try
     {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
-        //.AllowCredentials();
-    });
-});
+        // Apply pending migrations
+        await db.Database.MigrateAsync();
+        Console.WriteLine("? Database migrations applied successfully");
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(connectionString));
-
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-{
-    options.Password.RequireDigit = true;
-    options.Password.RequireLowercase = true;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireUppercase = true;
-    options.Password.RequiredLength = 8;
-    options.SignIn.RequireConfirmedEmail = false;
-})
-.AddEntityFrameworkStores<ApplicationDbContext>()
-.AddDefaultTokenProviders();
-
-//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-//    .AddCookie(options =>
-//    {
-//        options.LoginPath = "/api/auth/login";
-//        options.LogoutPath = "/api/auth/logout";
-//        options.ExpireTimeSpan = TimeSpan.FromDays(7);
-//        options.SlidingExpiration = true;
-//        options.Cookie.HttpOnly = true;
-//        options.Cookie.SecurePolicy = builder.Environment.IsDevelopment() ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always;
-//        options.Cookie.SameSite = SameSiteMode.Lax;
-//    });
-
-//builder.Services.AddAuthorization();
-
-var app = builder.Build();
-
-app.MapOpenApi();
-app.UseOpenApi();
-app.UseSwaggerUi();
-
-if (!app.Environment.IsDevelopment())
-{
-    app.UseHttpsRedirection();
+        // Seed initial data
+        await DataSeeder.SeedAsync(userManager, db);
+        Console.WriteLine("? Database seeding completed successfully");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"? Error during migration/seeding: {ex.Message}");
+        throw;
+    }
 }
 
-app.UseCors("AllowReactApp");
-//app.UseAuthentication();
-//app.UseAuthorization();
-app.MapControllers();
-
-//// Migrate database on startup
-//using (var scope = app.Services.CreateScope())
-//{
-//    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-//    db.Database.Migrate();
-//}
-
-app.Run();
+app
+    .SetupMiddleware()
+    .Run();

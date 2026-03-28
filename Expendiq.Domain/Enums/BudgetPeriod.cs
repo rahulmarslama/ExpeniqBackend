@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Expendiq.Domain.Enums
+﻿namespace Expendiq.Domain.Enums
 {
     public enum BudgetPeriod
     {

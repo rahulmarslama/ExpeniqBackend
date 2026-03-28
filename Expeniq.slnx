@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/Expendiq/">
+    <Project Path="Expendiq.Application/Expendiq.Application.csproj" Id="e551edf3-1b88-4d09-8de1-133188fe047f" />
     <Project Path="Expendiq.Domain/Expendiq.Domain.csproj" />
     <Project Path="Expendiq.Infrastructure/Expendiq.Infrastructure.csproj" />
     <Project Path="Expeniq.Presentation/Expeniq.Presentation.csproj" />
