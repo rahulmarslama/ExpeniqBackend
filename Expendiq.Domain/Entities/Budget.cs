@@ -16,7 +16,7 @@ namespace Expendiq.Domain.Entities
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        public string UserId { get; set; } = string.Empty;
+        public int UserId { get; set; }
         public int CategoryId { get; set; }
 
         // Navigation properties

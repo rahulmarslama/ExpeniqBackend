@@ -87,7 +87,7 @@ namespace Expeniq.Presentation
             {
                 config.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = false
+                    ValidateIssuer = true
                 };
                 // base-address of your IdentityServer
                 config.Authority = builder.Configuration["IdentityServerConfigurations:AuthorityUrl"];

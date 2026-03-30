@@ -12,12 +12,12 @@ namespace Expendiq.Infrastructure.IRepositories
         /// <summary>
         /// Get all categories for a specific user
         /// </summary>
-        Task<IEnumerable<Category>> GetAllAsync(string userId);
+        Task<IEnumerable<Category>> GetAllAsync(int userId);
 
         /// <summary>
         /// Get categories by search term
         /// </summary>
-        Task<IEnumerable<Category>> SearchAsync(string userId, string searchTerm);
+        Task<IEnumerable<Category>> SearchAsync(int userId, string searchTerm);
 
         /// <summary>
         /// Add a new category
@@ -47,6 +47,6 @@ namespace Expendiq.Infrastructure.IRepositories
         /// <summary>
         /// Get category count for a user
         /// </summary>
-        Task<int> GetCountAsync(string userId);
+        Task<int> GetCountAsync(int userId);
     }
 }

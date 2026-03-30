@@ -19,7 +19,7 @@ namespace Expendiq.Infrastructure.Repositories
             return await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<IEnumerable<Category>> GetAllAsync(string userId)
+        public async Task<IEnumerable<Category>> GetAllAsync(int userId)
         {
             return await _context.Categories
                 .Where(c => c.UserId == userId)
@@ -27,7 +27,7 @@ namespace Expendiq.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Category>> SearchAsync(string userId, string searchTerm)
+        public async Task<IEnumerable<Category>> SearchAsync(int userId, string searchTerm)
         {
             return await _context.Categories
                 .Where(c => c.UserId == userId &&
@@ -74,7 +74,7 @@ namespace Expendiq.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<int> GetCountAsync(string userId)
+        public async Task<int> GetCountAsync(int userId)
         {
             return await _context.Categories
                 .Where(c => c.UserId == userId)

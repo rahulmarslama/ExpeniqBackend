@@ -26,10 +26,10 @@ namespace Expendiq.Application.Services
             return MapToDto(category);
         }
 
-        public async Task<IEnumerable<CategoryResponseDto>> GetAllAsync(string userId)
+        public async Task<IEnumerable<CategoryResponseDto>> GetAllAsync(int userId)
         {
 
-            if (string.IsNullOrEmpty(userId))
+            if (userId<=0)
                 throw new ArgumentException("UserId is required");
 
             var categories = await _repository.GetAllAsync(userId);
@@ -97,7 +97,7 @@ namespace Expendiq.Application.Services
             return category != null;
         }
 
-        public async Task<IEnumerable<CategoryResponseDto>> SearchAsync(string userId, string searchTerm)
+        public async Task<IEnumerable<CategoryResponseDto>> SearchAsync(int userId, string searchTerm)
         {
 
             var categories = await _repository.GetAllAsync(userId);
@@ -114,7 +114,7 @@ namespace Expendiq.Application.Services
             if (dto.Name.Length > 100)
                 throw new ArgumentException("Category name must be less than 100 characters");
 
-            if (string.IsNullOrEmpty(dto.UserId))
+            if (dto.UserId<=0)
                 throw new ArgumentException("UserId is required");
         }
 
