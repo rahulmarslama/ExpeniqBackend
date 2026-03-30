@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Expendiq.Infrastructure.Migrations.UserDb
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20260328155806_InitUserDb")]
+    [Migration("20260328201944_InitUserDb")]
     partial class InitUserDb
     {
         /// <inheritdoc />

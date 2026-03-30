@@ -34,7 +34,7 @@ namespace Expeniq.Presentation.Controllers
         {
             try
             {
-                var userId = "7543d6f3-27a5-458d-bd9b-287ea76c255f";
+                var userId = 1;
                 //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 //if (string.IsNullOrEmpty(userId))
                 //    return Unauthorized();

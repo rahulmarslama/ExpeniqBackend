@@ -12,7 +12,7 @@ namespace Expendiq.Application.IServices
         /// <summary>
         /// Get all categories for a specific user
         /// </summary>
-        Task<IEnumerable<CategoryResponseDto>> GetAllAsync(string userId);
+        Task<IEnumerable<CategoryResponseDto>> GetAllAsync(int userId);
 
         /// <summary>
         /// Create a new category
@@ -37,6 +37,6 @@ namespace Expendiq.Application.IServices
         /// <summary>
         /// Get categories by search term
         /// </summary>
-        Task<IEnumerable<CategoryResponseDto>> SearchAsync(string userId, string searchTerm);
+        Task<IEnumerable<CategoryResponseDto>> SearchAsync(int userId, string searchTerm);
     }
 }

@@ -11,7 +11,7 @@ namespace Expendiq.Domain.Entities
         public string Icon { get; set; } = "tag"; // Default icon
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        public string UserId { get; set; } = string.Empty;
+        public int UserId { get; set; }
 
         // Navigation properties
         public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
