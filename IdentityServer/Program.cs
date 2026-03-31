@@ -88,7 +88,7 @@ else
 
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
-builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, UserClaimsFactory>();
+//builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, UserClaimsFactory>();
 
 builder.Services.AddCors();
 builder.Services.AddControllersWithViews();
