@@ -85,7 +85,7 @@ namespace IdentityServer.Configurations
 
                     AllowedScopes = {
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
+                        //IdentityServerConstants.StandardScopes.Profile,
                         "expendiqApiScope",
                         "additional_user_info",
                     },
@@ -107,6 +107,7 @@ namespace IdentityServer.Configurations
                     {
                         "http://localhost:3600/api/auth/callback/okta",
                         "http://localhost:2500/api/auth/callback/okta",
+                        "http://localhost:2500/",
                     },
                     PostLogoutRedirectUris =
                     {
@@ -122,7 +123,7 @@ namespace IdentityServer.Configurations
                     AllowedScopes = {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "additional_user_info",
+                        //"additional_user_info",
                         "expendiqApiScope",
                     },
 
