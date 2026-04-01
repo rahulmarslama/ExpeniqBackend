@@ -128,7 +128,7 @@ namespace Expendiq.Application.Services
                 Color = category.Color,
                 Icon = category.Icon,
                 UserId = category.UserId,
-                CreatedAt = category.CreatedAt
+                CreatedAt = category.CreatedAt.ToShortDateString()
             };
         }
     }
