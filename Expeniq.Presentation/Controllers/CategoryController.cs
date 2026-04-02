@@ -1,6 +1,8 @@
 ﻿using Expendiq.Application.DTOs.Category;
+using Expendiq.Application.Helpers;
 using Expendiq.Application.IServices;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Expeniq.Presentation.Controllers
 {
@@ -34,8 +36,8 @@ namespace Expeniq.Presentation.Controllers
         {
             try
             {
-                var userId = 1;
-                //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                //var userId = 1;
+                var userId = User.Identity.GetUserId();
                 //if (string.IsNullOrEmpty(userId))
                 //    return Unauthorized();
 
@@ -54,8 +56,7 @@ namespace Expeniq.Presentation.Controllers
             try
             {
                 //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                var userId = dto.UserId;
-                dto.UserId = userId;
+                dto.UserId = User.Identity.GetUserId();
 
                 var result = await _categoryService.CreateAsync(dto);
                 return CreatedAtAction(nameof(GetCategory), new { id = result.Id }, result);
